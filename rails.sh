@@ -23,8 +23,7 @@ start(){
     echo "NPM app detected"
     local command="npm start"
   else
-    echo "No Procfiles detected, falling back to rails"
-    local command="rails server"
+    echo "Could not detect app type, do nothing"
   fi
   if [[ -f Gemfile && ! $foreman ]];
   then
