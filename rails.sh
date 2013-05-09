@@ -22,6 +22,10 @@ start(){
   then
     echo "NPM app detected"
     local command="npm start"
+  elif [[ -f ./_config.yml && -d ./_site ]]
+  then
+    echo "Jekyll site detected"
+    local command="jekyll --server 3000 --pygments --auto"
   else
     echo "Could not detect app type, do nothing"
   fi
