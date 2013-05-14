@@ -17,7 +17,7 @@ start(){
   elif [ -f ./config.ru ]
   then
     echo "Rack app detected"
-    local command="rackup config.ru"
+    local command="rackup --port 3000 config.ru"
   elif [ -f ./package.json ]
   then
     echo "NPM app detected"
