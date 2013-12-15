@@ -37,7 +37,7 @@ start(){
   elif [ -f ./home.* ]
   then
     local messagea="Gollum wiki detected"
-    local commanda="gollum --css --js"
+    local commanda="gollum --css --js --port 3000"
   else
     local messagea="Could not detect app type, do nothing"
   fi
