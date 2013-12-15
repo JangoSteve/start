@@ -1,34 +1,41 @@
 start(){
   local foreman=false
+  local executinglabel="Executing:"
+  local planblabel="Command failed, time for Plan B"
+  local yellow="\033[1;33m"
+  local cyan="\033[1;36m"
+  local reset="\033[0;0m"
+
   if [ -f ./Procfile.dev ];
   then
-    echo "Procfile.dev detected"
+    local message="Procfile.dev detected"
     local command="foreman start -f Procfile.dev -p 3000"
     foreman=true
   elif [ -f ./Procfile ];
   then
-    echo "Procfile detected"
+    local message="Procfile detected"
     local command="foreman start -p 3000"
     foreman=true
   elif [ -f ./config/boot.rb ]
   then
-    echo "No Procfiles detected, falling back to rails"
+    local message="No Procfiles detected, falling back to rails"
     local command="rails server"
   elif [ -f ./config.ru ]
   then
-    echo "Rack app detected"
+    local message="Rack app detected"
     local command="rackup --port 3000 config.ru"
   elif [ -f ./package.json ]
   then
-    echo "NPM app detected"
+    local message="NPM app detected"
     local command="npm start"
   elif [[ -f ./_config.yml && -d ./_site ]]
   then
-    echo "Jekyll site detected"
+    local message="Jekyll site detected"
     local command="jekyll serve --watch"
+    local messageb="Jekyll < 1.0 detected"
     local commandb="jekyll --server 3000 --pygments --auto"
   else
-    echo "Could not detect app type, do nothing"
+    local message="Could not detect app type, do nothing"
   fi
   if [[ -f Gemfile && ! $foreman ]];
   then
@@ -38,18 +45,21 @@ start(){
       commandb="bundle exec $commandb"
     fi
   fi
+
+  echo -e "$yellow$message$reset"
   if [ commandb ]
   then
     {
-      echo "> $command"
+      echo -e "$cyan$executinglabel$reset $command"
       $command
     } || {
-      echo "Command failed, time for Plan B"
-      echo "> $commandb"
+      echo $planblabel
+      echo -e "$yellow$messageb$reset"
+      echo -e "$cyan$executinglabel$reset $commandb"
       $commandb
     }
   else
-    echo "> $command"
+    echo -e "$cyan$executinglabel$reset $command"
     $command
   fi
 }
