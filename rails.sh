@@ -34,6 +34,10 @@ start(){
     local commanda="jekyll serve --watch --port 3000"
     local messageb="Jekyll < 1.0 detected"
     local commandb="jekyll --server 3000 --pygments --auto"
+  elif [ -f ./home.* ]
+  then
+    local messagea="Gollum wiki detected"
+    local commanda="gollum --css --js"
   else
     local messagea="Could not detect app type, do nothing"
   fi
