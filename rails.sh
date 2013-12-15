@@ -31,7 +31,7 @@ start(){
   elif [[ -f ./_config.yml && -d ./_site ]]
   then
     local message="Jekyll site detected"
-    local command="jekyll serve --watch"
+    local command="jekyll serve --watch --port 3000"
     local messageb="Jekyll < 1.0 detected"
     local commandb="jekyll --server 3000 --pygments --auto"
   else
