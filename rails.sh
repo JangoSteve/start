@@ -8,50 +8,51 @@ start(){
 
   if [ -f ./Procfile.dev ];
   then
-    local message="Procfile.dev detected"
-    local command="foreman start -f Procfile.dev -p 3000"
+    local messagea="Procfile.dev detected"
+    local commanda="foreman start -f Procfile.dev -p 3000"
     foreman=true
   elif [ -f ./Procfile ];
   then
-    local message="Procfile detected"
-    local command="foreman start -p 3000"
+    local messagea="Procfile detected"
+    local commanda="foreman start -p 3000"
     foreman=true
   elif [ -f ./config/boot.rb ]
   then
-    local message="No Procfiles detected, falling back to rails"
-    local command="rails server"
+    local messagea="No Procfiles detected, falling back to rails"
+    local commanda="rails server"
   elif [ -f ./config.ru ]
   then
-    local message="Rack app detected"
-    local command="rackup --port 3000 config.ru"
+    local messagea="Rack app detected"
+    local commanda="rackup --port 3000 config.ru"
   elif [ -f ./package.json ]
   then
-    local message="NPM app detected"
-    local command="npm start"
+    local messagea="NPM app detected"
+    local commanda="npm start"
   elif [[ -f ./_config.yml && -d ./_site ]]
   then
-    local message="Jekyll site detected"
-    local command="jekyll serve --watch --port 3000"
+    local messagea="Jekyll site detected"
+    local commanda="jekyll serve --watch --port 3000"
     local messageb="Jekyll < 1.0 detected"
     local commandb="jekyll --server 3000 --pygments --auto"
   else
-    local message="Could not detect app type, do nothing"
+    local messagea="Could not detect app type, do nothing"
   fi
+
   if [[ -f Gemfile && ! $foreman ]];
   then
-    command="bundle exec $command"
+    commanda="bundle exec $commanda"
     if [ commandb ];
     then
       commandb="bundle exec $commandb"
     fi
   fi
 
-  echo -e "$yellow$message$reset"
-  if [ commandb ]
+  echo -e "$yellow$messagea$reset"
+  if [[ commanda && commandb ]]
   then
     {
-      echo -e "$cyan$executinglabel$reset $command"
-      $command
+      echo -e "$cyan$executinglabel$reset $commanda"
+      $commanda
     } || {
       echo $planblabel
       echo -e "$yellow$messageb$reset"
@@ -59,7 +60,8 @@ start(){
       $commandb
     }
   else
-    echo -e "$cyan$executinglabel$reset $command"
-    $command
+    echo "true"
+    echo -e "$cyan$executinglabel$reset $commanda"
+    $commanda
   fi
 }
