@@ -5,16 +5,33 @@ start(){
   local yellow="\033[1;33m"
   local cyan="\033[1;36m"
   local reset="\033[0;0m"
+  local port="3000"
+
+  while getopts ":p:" opt; do
+    case $opt in
+      p)
+        port=$OPTARG
+        ;;
+      \?)
+        echo "Invalid option: -$OPTARG" >&2
+        exit 1
+        ;;
+      :)
+        echo "Option -$OPTARG requires an argument." >&2
+        exit 1
+        ;;
+    esac
+  done
 
   if [ -f ./Procfile.dev ];
   then
     local messagea="Procfile.dev detected"
-    local commanda="foreman start -f Procfile.dev -p 3000"
+    local commanda="foreman start -f Procfile.dev -p $port"
     foreman=true
   elif [ -f ./Procfile ];
   then
     local messagea="Procfile detected"
-    local commanda="foreman start -p 3000"
+    local commanda="foreman start -p $port"
     foreman=true
   elif [ -f ./config/boot.rb ]
   then
@@ -23,7 +40,7 @@ start(){
   elif [ -f ./config.ru ]
   then
     local messagea="Rack app detected"
-    local commanda="rackup --port 3000 config.ru"
+    local commanda="rackup --port $port config.ru"
   elif [ -f ./package.json ]
   then
     local messagea="NPM app detected"
@@ -31,13 +48,13 @@ start(){
   elif [[ -f ./_config.yml && -d ./_site ]]
   then
     local messagea="Jekyll site detected"
-    local commanda="jekyll serve --watch --port 3000"
+    local commanda="jekyll serve --watch --port $port"
     local messageb="Jekyll < 1.0 detected"
-    local commandb="jekyll --server 3000 --pygments --auto"
+    local commandb="jekyll --server $port --pygments --auto"
   elif [ -f ./home.* ]
   then
     local messagea="Gollum wiki detected"
-    local commanda="gollum --css --js --port 3000"
+    local commanda="gollum --css --js --port $port"
   else
     local messagea="Could not detect app type, do nothing"
   fi
