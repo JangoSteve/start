@@ -25,14 +25,31 @@ start(){
   elif [[ -f ./_config.yml && -d ./_site ]]
   then
     echo "Jekyll site detected"
-    local command="jekyll --server 3000 --pygments --auto"
+    local command="jekyll serve --watch"
+    local commandb="jekyll --server 3000 --pygments --auto"
   else
     echo "Could not detect app type, do nothing"
   fi
   if [[ -f Gemfile && ! $foreman ]];
   then
     command="bundle exec $command"
+    if [ commandb ];
+    then
+      commandb="bundle exec $commandb"
+    fi
   fi
-  echo "> $command"
-  $command
+  if [ commandb ]
+  then
+    {
+      echo "> $command"
+      $command
+    } || {
+      echo "Command failed, time for Plan B"
+      echo "> $commandb"
+      $commandb
+    }
+  else
+    echo "> $command"
+    $command
+  fi
 }
