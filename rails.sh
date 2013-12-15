@@ -38,17 +38,17 @@ start(){
     local messagea="Could not detect app type, do nothing"
   fi
 
-  if [[ -f Gemfile && ! $foreman ]];
+  if [[ -n "$commanda" && -f Gemfile && ! $foreman ]];
   then
     commanda="bundle exec $commanda"
-    if [ commandb ];
+    if [ -n "$commandb" ];
     then
       commandb="bundle exec $commandb"
     fi
   fi
 
   echo -e "$yellow$messagea$reset"
-  if [[ commanda && commandb ]]
+  if [[ -n "$commanda" && -n "$commandb" ]]
   then
     {
       echo -e "$cyan$executinglabel$reset $commanda"
@@ -59,7 +59,8 @@ start(){
       echo -e "$cyan$executinglabel$reset $commandb"
       $commandb
     }
-  else
+  elif [ -n "$commanda" ]
+  then
     echo "true"
     echo -e "$cyan$executinglabel$reset $commanda"
     $commanda
