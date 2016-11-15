@@ -55,6 +55,10 @@ start(){
   then
     local messagea="Gollum wiki detected"
     local commanda="gollum --css --js --port $port"
+  elif [ -f ./config.toml && -f ./themes ] 
+  then
+    local messagea="Hugo site detected"
+    local commanda="hugo server -p $port"
   else
     local messagea="Could not detect app type, do nothing"
   fi
