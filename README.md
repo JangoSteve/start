@@ -103,6 +103,10 @@ extension can be any markup template extension, Start will run `gollum`.
 We may need to make this detection more specific the first time we add a
 project-type that may also conventionally have a `home.*` file.
 
+### Hugo
+
+If a `config.toml` file and `themes` directory are detected in the root directory, Start will run `hugo server`
+
 ## More
 
 If you have another application that isn't currently detected, please
