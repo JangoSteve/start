@@ -107,6 +107,10 @@ project-type that may also conventionally have a `home.*` file.
 
 If a `config.toml` file and `themes` directory are detected in the root directory, Start will run `hugo server`
 
+### Django
+
+If a `manage.py` file is detected in the root directory, Start will run `python manage.py runserver`
+
 ## More
 
 If you have another application that isn't currently detected, please

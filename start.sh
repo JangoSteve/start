@@ -59,6 +59,10 @@ start(){
   then
     local messagea="Hugo site detected"
     local commanda="hugo server -p $port"
+  elif [ -f ./manage.py ];
+  then
+    local messagea="Django app detected"
+    local commanda="python manage.py runserver $port"
   else
     local messagea="Could not detect app type, do nothing"
   fi
