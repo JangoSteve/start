@@ -28,7 +28,7 @@ start(){
 
   if [ -f ./Procfile.dev ];
   then
-    local messagea="Procfile.dev detected blah"
+    local messagea="Procfile.dev detected"
     local commanda="foreman start -f Procfile.dev -p $port"
     foreman=true
   elif [ -f ./Procfile ];
