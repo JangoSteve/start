@@ -7,6 +7,9 @@ start(){
   local reset="\033[0;0m"
   local port="3000"
 
+  # Reset, so getopts will parse options every time function is called
+  OPTIND=1
+
   while getopts ":p:" opt; do
     case $opt in
       p)
@@ -25,7 +28,7 @@ start(){
 
   if [ -f ./Procfile.dev ];
   then
-    local messagea="Procfile.dev detected"
+    local messagea="Procfile.dev detected blah"
     local commanda="foreman start -f Procfile.dev -p $port"
     foreman=true
   elif [ -f ./Procfile ];
